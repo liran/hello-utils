@@ -1,3 +1,3 @@
-const sleep = require('./utils/sleep');
+const sleep = require('./sleep');
 
 module.exports = { sleep };

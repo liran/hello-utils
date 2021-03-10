@@ -1,9 +1,9 @@
 {
   "name": "hello-utils",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "Set of commonly used javascript functions.",
-  "browser": "dist/browser.js",
-  "main": "dist/node.js",
+  "browser": "browser.js",
+  "main": "node.js",
   "repository": "https://github.com/liran/hello-utils.git",
   "author": "liran <857271370@qq.com>",
   "bugs": {
@@ -13,9 +13,8 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "prepublish": "yarn run build",
-    "build": "babel src -d dist",
-    "release": "standard-version"
+    "p": "yarn run build && yarn publish dist",
+    "build": "rm -rf dist && babel src -d dist && cp package.json dist"
   },
   "keywords": [
     "hello-utils",
@@ -38,6 +37,7 @@
   "dependencies": {
     "abort-controller": "^3.0.0",
     "https-proxy-agent": "^5.0.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "regenerator-runtime": "^0.13.7"
   }
 }
