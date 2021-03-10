@@ -1,6 +1,6 @@
 {
   "name": "hello-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Set of commonly used javascript functions.",
   "browser": "dist/browser.js",
   "main": "dist/node.js",
