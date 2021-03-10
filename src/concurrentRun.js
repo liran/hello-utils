@@ -9,24 +9,29 @@ const isArray = require('./isArray');
  */
 function concurrentRun(arrayOrFunc, call, concurrentCount = 6) {
   return new Promise((resolve) => {
-    const b = isArray(arrayOrFunc);
+    const isarray = isArray(arrayOrFunc);
     let counter = 0;
     let index = 0;
 
     const run = async (task) => {
       counter++;
       await call(task);
-      if (--counter === 0) return resolve();
+      counter--;
 
       // next task
-      const nextTask = b ? arrayOrFunc[++index] : arrayOrFunc();
-      if (nextTask) run(nextTask);
+      const nextTask = isarray ? arrayOrFunc[index++] : arrayOrFunc();
+      if (nextTask || nextTask === 0) {
+        run(nextTask);
+        return;
+      }
+
+      if (counter === 0) resolve();
     };
 
     for (; index < concurrentCount; index++) {
-      const a = isArray ? arrayOrFunc[index] : arrayOrFunc();
-      if (!a) break;
-      run(a);
+      const task = isarray ? arrayOrFunc[index] : arrayOrFunc();
+      if (!task && task !== 0) break;
+      run(task);
     }
   });
 }
