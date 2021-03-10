@@ -1,0 +1,43 @@
+{
+  "name": "hello-utils",
+  "version": "1.0.0",
+  "description": "Set of commonly used javascript functions.",
+  "browser": "dist/browser.js",
+  "main": "dist/node.js",
+  "repository": "https://github.com/liran/hello-utils.git",
+  "author": "liran <857271370@qq.com>",
+  "bugs": {
+    "url": "https://github.com/liran/hello-utils/issues"
+  },
+  "homepage": "https://github.com/liran/hello-utils#readme",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "babel src -d dist",
+    "release": "standard-version"
+  },
+  "keywords": [
+    "hello-utils",
+    "utils"
+  ],
+  "devDependencies": {
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "babel-eslint": "^10.0.2",
+    "eslint": "^5.4.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-compat": "^3.5.1",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.2",
+    "eslint-plugin-react-hooks": "^4.0.2"
+  },
+  "dependencies": {
+    "abort-controller": "^3.0.0",
+    "https-proxy-agent": "^5.0.0",
+    "node-fetch": "^2.6.1"
+  }
+}
