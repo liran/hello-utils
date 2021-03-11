@@ -41,6 +41,7 @@
     "abort-controller": "^3.0.0",
     "https-proxy-agent": "^5.0.0",
     "node-fetch": "^2.6.1",
+    "node-localstorage": "^2.1.6",
     "regenerator-runtime": "^0.13.7"
   }
 }

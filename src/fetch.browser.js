@@ -36,7 +36,7 @@ const browserFetch = async (url, options = {}) => {
       // The original OK is between 200–299
       // If you use the parameter redirect: 'manual', 300 to 399 should also be OK
       // So we need to manually adjust it to fit our real usage scenarios
-      res.isOK = res.status >= 200 && res.status < 400;
+      res.isOk = res.isOK = res.status >= 200 && res.status < 400;
       if (!res.isOK && i !== lastIndex) throw Error(`${res.status}, ${res.statusText}`);
 
       break;
