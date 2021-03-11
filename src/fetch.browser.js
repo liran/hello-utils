@@ -1,5 +1,5 @@
-import AbortController from 'abort-controller';
-import sleep from './sleep';
+const { AbortController } = require('abort-controller');
+const sleep = require('./sleep');
 
 const browserFetch = async (url, options = {}) => {
   // Number of error retries
@@ -50,4 +50,4 @@ const browserFetch = async (url, options = {}) => {
   return res || { isOK: false, status: 0, statusText: 'network error' };
 };
 
-export default browserFetch;
+module.exports = browserFetch;

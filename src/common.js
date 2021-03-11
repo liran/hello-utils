@@ -1,8 +1,10 @@
-const sleep = require('./sleep');
-const isArray = require('./isArray');
-const concurrentRun = require('./concurrentRun');
-const retryRun = require('./retryRun');
-const singleJoiningSlash = require('./singleJoiningSlash');
-const waitAction = require('./waitAction');
+const fs = require('fs');
 
-module.exports = { sleep, isArray, concurrentRun, retryRun, singleJoiningSlash, waitAction };
+module.exports = {};
+
+fs.readdirSync(__dirname, { withFileTypes: true }).forEach((item) => {
+  if (/^\w+(?:\.js)$/.test(item.name) && !/(?:browser|common|node).js/.test(item.name)) {
+    const name = item.name.replace('.js', '');
+    module.exports[name] = require(`./${item.name}`);
+  }
+});

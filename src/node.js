@@ -1,5 +1,12 @@
 require('regenerator-runtime/runtime');
-const common = require('./common');
-const fetch = require('./fetch.node');
+const fs = require('fs');
 
-module.exports = { ...common, fetch };
+module.exports = require('./common');
+
+const reg = /(?:\.node\.js)$/;
+fs.readdirSync(__dirname, { withFileTypes: true }).forEach((item) => {
+  if (reg.test(item.name)) {
+    const name = item.name.replace(reg, '');
+    module.exports[name] = require(`./${item.name}`);
+  }
+});

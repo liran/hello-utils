@@ -80,7 +80,8 @@
     "no-await-in-loop": 0,
     "no-loop-func": 0,
     "compat/compat": 0,
-    "guard-for-in": 0
+    "guard-for-in": 0,
+    "import/no-dynamic-require": 0
   },
   "settings": {
     "polyfills": ["fetch", "promises", "url"]
