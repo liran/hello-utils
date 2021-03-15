@@ -38,7 +38,7 @@ const nodeFetch = async (link, options = {}) => {
     opts.rejectUnauthorized = false;
     options.agent = new HttpsProxyAgent(opts);
     delete options.proxy;
-  } else {
+  } else if (url.parse(link).protocol === 'https:') {
     // https://github.com/node-fetch/node-fetch/issues/15#issuecomment-533869809
     options.agent = new https.Agent({ rejectUnauthorized: false });
   }
