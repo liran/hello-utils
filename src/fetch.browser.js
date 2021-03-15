@@ -1,4 +1,5 @@
-const { AbortController } = require('abort-controller');
+import AbortController from 'abort-controller';
+
 const sleep = require('./sleep');
 
 const browserFetch = async (url, options = {}) => {
