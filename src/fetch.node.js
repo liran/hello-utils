@@ -1,10 +1,11 @@
 const https = require('https');
+const url = require('url');
 const fetch = require('node-fetch');
 const HttpsProxyAgent = require('https-proxy-agent');
 const { AbortController } = require('abort-controller');
 const sleep = require('./sleep');
 
-const nodeFetch = async (url, options = {}) => {
+const nodeFetch = async (link, options = {}) => {
   // https://github.com/node-fetch/node-fetch#options
   // Use an insecure HTTP parser that accepts invalid HTTP headers when `true`.
   options.insecureHTTPParser = true;
@@ -33,7 +34,7 @@ const nodeFetch = async (url, options = {}) => {
   // Use HTTP proxy
   if (options.proxy) {
     // https://github.com/TooTallNate/node-https-proxy-agent/issues/11#issuecomment-190369376
-    const opts = new URL(options.proxy);
+    const opts = url.parse(options.proxy);
     opts.rejectUnauthorized = false;
     options.agent = new HttpsProxyAgent(opts);
     delete options.proxy;
@@ -49,7 +50,7 @@ const nodeFetch = async (url, options = {}) => {
       const controller = new AbortController();
       options.signal = controller.signal;
       const timer = setTimeout(() => controller.abort(), timeout);
-      res = await fetch(url, options);
+      res = await fetch(link, options);
       clearTimeout(timer);
 
       // The original OK is between 200–299
