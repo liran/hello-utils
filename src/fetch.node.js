@@ -1,9 +1,14 @@
+const https = require('https');
 const fetch = require('node-fetch');
 const HttpsProxyAgent = require('https-proxy-agent');
 const { AbortController } = require('abort-controller');
 const sleep = require('./sleep');
 
 const nodeFetch = async (url, options = {}) => {
+  // https://github.com/node-fetch/node-fetch#options
+  // Use an insecure HTTP parser that accepts invalid HTTP headers when `true`.
+  options.insecureHTTPParser = true;
+
   // Number of error retries
   let retry = 3;
   if (options.retry) {
@@ -27,8 +32,14 @@ const nodeFetch = async (url, options = {}) => {
 
   // Use HTTP proxy
   if (options.proxy) {
-    options.agent = new HttpsProxyAgent(options.proxy);
+    // https://github.com/TooTallNate/node-https-proxy-agent/issues/11#issuecomment-190369376
+    const opts = new URL(options.proxy);
+    opts.rejectUnauthorized = false;
+    options.agent = new HttpsProxyAgent(opts);
     delete options.proxy;
+  } else {
+    // https://github.com/node-fetch/node-fetch/issues/15#issuecomment-533869809
+    options.agent = new https.Agent({ rejectUnauthorized: false });
   }
 
   let res;
