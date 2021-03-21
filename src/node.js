@@ -1,4 +1,3 @@
-require('regenerator-runtime/runtime');
 const fs = require('fs');
 
 module.exports = require('./common');

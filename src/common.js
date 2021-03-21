@@ -1,3 +1,5 @@
+require('regenerator-runtime/runtime');
+
 const concurrentRun = require('./concurrentRun');
 const isArray = require('./isArray');
 const retryRun = require('./retryRun');
