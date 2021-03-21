@@ -1,11 +1,5 @@
-const fs = require('fs');
+const common = require('./common');
 
-module.exports = require('./common');
+const fetch = require('./fetch.browser');
 
-const reg = /(?:\.browser\.js)$/;
-fs.readdirSync(__dirname, { withFileTypes: true }).forEach((item) => {
-  if (reg.test(item.name)) {
-    const name = item.name.replace(reg, '');
-    module.exports[name] = require(`./${item.name}`);
-  }
-});
+module.exports = { ...common, fetch };
