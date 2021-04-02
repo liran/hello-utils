@@ -1,16 +1,24 @@
 const fetch = require('../src/fetch.node');
 
-test('fetch baidu', async (done) => {
-  const res = await fetch('http://www.baidu.com');
-  expect(res.isOK).toBe(true);
+// test('fetch baidu', async (done) => {
+//   const res = await fetch('http://www.baidu.com');
+//   expect(res.isOK).toBe(true);
 
-  done();
-});
+//   done();
+// });
 
-test('fetch google', async (done) => {
-  const proxy = 'http://localhost:1080';
-  const res = await fetch('https://www.google.com', { proxy });
-  expect(res.isOK).toBe(true);
+// test('fetch google', async (done) => {
+//   const proxy = 'http://localhost:1080';
+//   const res = await fetch('https://www.google.com', { proxy });
+//   expect(res.isOK).toBe(true);
 
-  done();
-});
+//   done();
+// });
+
+async function run() {
+  // const proxy = 'http://localhost:1080';
+  const res = await fetch('http://www.baidu.com', { redirect: 'manual' });
+  console.log(res.isOK);
+}
+
+run();
