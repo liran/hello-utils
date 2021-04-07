@@ -8,30 +8,38 @@ const isArray = require('./isArray');
  * @returns Resolve after all tasks have finished
  */
 function concurrentRun(arrayOrFunc, call, concurrentCount = 6) {
-  return new Promise((resolve) => {
+  return new Promise(async (resolve, reject) => {
     const isarray = isArray(arrayOrFunc);
     let counter = 0;
     let index = 0;
 
     const run = async (task) => {
-      counter++;
-      await call(task);
-      counter--;
+      try {
+        counter++;
+        await call(task);
+        counter--;
 
-      // next task
-      const nextTask = isarray ? arrayOrFunc[index++] : arrayOrFunc();
-      if (nextTask || nextTask === 0) {
-        run(nextTask);
-        return;
+        // next task
+        const nextTask = isarray ? arrayOrFunc[index++] : await arrayOrFunc();
+        if (nextTask || nextTask === 0) {
+          run(nextTask);
+          return;
+        }
+
+        if (counter === 0) resolve();
+      } catch (error) {
+        reject(error);
       }
-
-      if (counter === 0) resolve();
     };
 
-    for (; index < concurrentCount; index++) {
-      const task = isarray ? arrayOrFunc[index] : arrayOrFunc();
-      if (!task && task !== 0) break;
-      run(task);
+    try {
+      for (; index < concurrentCount; index++) {
+        const task = isarray ? arrayOrFunc[index] : await arrayOrFunc();
+        if (!task && task !== 0) break;
+        run(task);
+      }
+    } catch (error) {
+      reject(error);
     }
   });
 }
