@@ -35,7 +35,10 @@ function concurrentRun(arrayOrFunc, call, concurrentCount = 6) {
     try {
       for (; index < concurrentCount; index++) {
         const task = isarray ? arrayOrFunc[index] : await arrayOrFunc();
-        if (!task && task !== 0) break;
+        if (!task && task !== 0) {
+          if (index === 0) resolve();
+          break;
+        }
         run(task);
       }
     } catch (error) {
