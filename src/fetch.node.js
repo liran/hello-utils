@@ -55,6 +55,7 @@ const nodeFetch = async (link, options = {}) => {
   let res;
   const lastIndex = retry - 1;
   const cookier = new Cookie();
+  let errorMsg = 'network error';
   for (let i = 0; i < retry; i++) {
     try {
       cookier.reset(cookie);
@@ -90,11 +91,12 @@ const nodeFetch = async (link, options = {}) => {
     } catch (error) {
       const message = error.type === 'aborted' ? 'Request timeout' : error.message;
       console.log('Fetch error:', message);
+      errorMsg = message;
       await sleep(sleepTime);
     }
   }
 
-  return res || { isOK: false, status: 0, statusText: 'network error' };
+  return res || { isOK: false, status: 0, statusText: errorMsg };
 };
 
 module.exports = nodeFetch;
