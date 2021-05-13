@@ -11,6 +11,7 @@ const nodeFetch = async (link, options = {}) => {
   // https://github.com/node-fetch/node-fetch#options
   // Use an insecure HTTP parser that accepts invalid HTTP headers when `true`.
   options.insecureHTTPParser = true;
+  options.highWaterMark = 1048576; // 1 MB
 
   // Number of error retries
   let retry = 3;
@@ -49,7 +50,11 @@ const nodeFetch = async (link, options = {}) => {
   const redirect = options.redirect;
   options.redirect = 'manual';
 
-  if (!options.headers) options.headers = {};
+  options.headers = {
+    'user-agent':
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36',
+    ...(options?.headers || {}),
+  };
   const cookie = options.headers.cookie;
 
   let res;
@@ -60,7 +65,7 @@ const nodeFetch = async (link, options = {}) => {
     try {
       cookier.reset(cookie);
       let redirectLink = link;
-      for (let redirectCount = 0; redirectCount < 15; redirectCount++) {
+      for (let redirectCount = 0; redirectCount < 20; redirectCount++) {
         const controller = new AbortController();
         options.signal = controller.signal;
         const timer = setTimeout(() => controller.abort(), timeout);
