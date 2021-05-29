@@ -71,7 +71,10 @@ const nodeFetch = async (link, options = {}) => {
         const timer = setTimeout(() => controller.abort(), timeout);
         options.headers.cookie = cookier.cookie;
         const opts = { ...options };
-        if (redirectCount > 0) opts.method = 'GET'; // redirect 
+        if (redirectCount > 0) {
+          opts.method = 'GET';
+          opts.body = null;
+        }
         res = await fetch(redirectLink, opts);
         cookier.merge(res);
         clearTimeout(timer);
