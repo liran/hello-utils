@@ -70,7 +70,9 @@ const nodeFetch = async (link, options = {}) => {
         options.signal = controller.signal;
         const timer = setTimeout(() => controller.abort(), timeout);
         options.headers.cookie = cookier.cookie;
-        res = await fetch(redirectLink, options);
+        const opts = { ...options };
+        if (redirectCount > 0) opts.method = 'GET'; // redirect 
+        res = await fetch(redirectLink, opts);
         cookier.merge(res);
         clearTimeout(timer);
         if ((!redirect || redirect === 'follow') && res.status >= 300 && res.status < 400) {
