@@ -1,4 +1,4 @@
-import AbortController from 'abort-controller';
+const { AbortController } = require('abort-controller/dist/abort-controller.umd');
 
 const sleep = require('./sleep');
 
