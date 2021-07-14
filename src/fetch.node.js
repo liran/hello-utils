@@ -1,4 +1,5 @@
 const https = require('https');
+const http = require('http');
 const url = require('url');
 const fetch = require('node-fetch');
 const HttpsProxyAgent = require('https-proxy-agent');
@@ -6,6 +7,9 @@ const { AbortController } = require('abort-controller');
 const sleep = require('./sleep');
 const Cookie = require('./cookie');
 const singleJoiningSlash = require('./singleJoiningSlash');
+
+const httpAgent = new http.Agent({ keepAlive: true });
+const httpsAgent = new https.Agent({ rejectUnauthorized: false, keepAlive: true });
 
 const nodeFetch = async (link, options = {}) => {
   // https://github.com/node-fetch/node-fetch#options
@@ -39,11 +43,12 @@ const nodeFetch = async (link, options = {}) => {
     // https://github.com/TooTallNate/node-https-proxy-agent/issues/11#issuecomment-190369376
     const opts = url.parse(options.proxy);
     opts.rejectUnauthorized = false;
+    opts.keepAlive = true;
     options.agent = new HttpsProxyAgent(opts);
     delete options.proxy;
-  } else if (url.parse(link).protocol === 'https:') {
+  } else {
     // https://github.com/node-fetch/node-fetch/issues/15#issuecomment-533869809
-    options.agent = new https.Agent({ rejectUnauthorized: false });
+    options.agent = (e) => (e.protocol === 'http:' ? httpAgent : httpsAgent);
   }
 
   // The default redirection is without cookies, we need to handle the redirection manually

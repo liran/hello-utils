@@ -17,7 +17,7 @@ const fetch = require('../src/fetch.node');
 
 async function run() {
   // const proxy = 'http://localhost:1080';
-  const res = await fetch('http://www.baidu.com', { redirect: 'manual' });
+  const res = await fetch('https://www.dhgate.com');
   console.log(res.isOK);
 }
 
